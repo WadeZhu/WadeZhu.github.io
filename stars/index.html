@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>来画点酷炫的东西</title>
+		<style>
+			body,
+			h1,
+			h2,
+			h3,
+			h4,
+			h5,
+			h6,
+			hr,
+			p,
+			blockquote,
+			dl,
+			dt,
+			dd,
+			ul,
+			ol,
+			li,
+			pre,
+			form,
+			fieldset,
+			legend,
+			button,
+			input,
+			textarea,
+			th,
+			td {
+				margin: 0;
+				padding: 0;
+			}
+			
+			body,
+			button,
+			input,
+			select,
+			textarea {
+				font: 12px/1.5 arial, 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', '黑体', '宋体', Tahoma, Arial, Helvetica, STHeiti;
+			}
+			
+			body {
+				background: #fff;
+				color: #535353;
+				overflow-x: auto;
+			}
+			
+			h1,
+			h2,
+			h3,
+			h4,
+			h5,
+			h6 {
+				font-size: 100%;
+			}
+			
+			ul,
+			ol,
+			li {
+				list-style: none;
+			}
+			
+			a {
+				text-decoration: none;
+				color: #535353;
+				outline: none;
+			}
+			
+			a:hover {
+				text-decoration: none;
+			}
+			
+			fieldset,
+			img {
+				border: 0;
+			}
+			
+			img {
+				display: block;
+			}
+			
+			button,
+			input,
+			select,
+			textarea {
+				font-size: 100%;
+				outline: none;
+			}
+			
+			table {
+				border-collapse: collapse;
+				border-spacing: 0;
+			}
+			
+			.wrap {
+				width: 800px;
+				height: 800px;
+				margin: auto;
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background:url(earth.jpg) center center no-repeat;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="wrap">
+			<canvas id="mycanvas" width="800" height="800"></canvas>
+		</div>
+		<script type="text/javascript">
+			var canvas = document.querySelector('#mycanvas');
+			var ctx = canvas.getContext('2d');
+
+			var x = 1,
+				y = 1,
+				particleIndex=0,
+				stars=[],
+				shine=true;
+
+			function Star(){
+				this.radius=1;
+				this.alpha=0;
+				this.x=Math.random()*800;
+				this.y=Math.random()*620;
+				this.vx=0.4;
+				this.vy=0;
+				stars[particleIndex++] = this;
+			}
+			
+			Star.prototype.draw=function(){
+				this.x+=this.vx;
+				this.y+=this.vy;
+				if (this.x>800) {
+					this.x-=800;
+				}
+				if (shine) {
+					if (this.alpha<0.8) {
+						this.alpha+=0.01;
+					}else{shine=false};
+				}else{
+					if (this.alpha>0.2) {
+						this.alpha-=0.01;
+					}else{shine=true};
+				}
+				
+				ctx.beginPath()
+				ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+				ctx.fillStyle = "rgba(255,255,255," + this.alpha.toString() + ")";
+				ctx.closePath()
+				
+				if (x<800) {
+					ctx.fill()
+				}else{
+					return
+				}
+			}
+
+			function render() {
+				var density=80;
+				let newStars=[]
+				ctx.clearRect(0, 0, 800, 800);
+				if ( stars.length > 80 ) {
+			            density = 0;
+			        }
+				for (var i=0; i<density; i++) {
+					if ( Math.random() > 0.95 ) {
+		                new Star();
+		            }
+				}
+				
+				for (var i=0; i<stars.length; i++) {
+					stars[i].draw();
+				}
+				requestAnimationFrame(render)
+
+			}
+			render()
+			
+		</script>
+	</body>
+
+</html>
