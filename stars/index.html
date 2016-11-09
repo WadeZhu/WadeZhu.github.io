@@ -136,9 +136,9 @@
 			Star.prototype.draw=function(){
 				this.x+=this.vx;
 				this.y+=this.vy;
-				if (this.x>800) {
-					this.x-=800;
-				}
+//				if (this.x>800) {
+//					this.x-=800;
+//				}
 				if (shine) {
 					if (this.alpha<0.8) {
 						this.alpha+=0.01;
@@ -165,14 +165,18 @@
 				var density=80;
 				let newStars=[]
 				ctx.clearRect(0, 0, 800, 800);
-				if ( stars.length > 80 ) {
-			            density = 0;
-			        }
-				for (var i=0; i<density; i++) {
-					if ( Math.random() > 0.95 ) {
+//				if ( stars.length > 80 ) {
+//			            density = 0;
+//			        }
+//				for (var i=0; i<density; i++) {
+//					if ( Math.random() > 0.95 ) {
+//		                new Star();
+//		            }
+//				}
+				
+				if ( Math.random() > 0.92 ) {
 		                new Star();
 		            }
-				}
 				
 				for (var i=0; i<stars.length; i++) {
 					stars[i].draw();
